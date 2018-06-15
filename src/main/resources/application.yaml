@@ -1,0 +1,11 @@
+logging:
+  level:
+    root: INFO
+graph:
+  graphPath: input/us_cities_out_graph.csv
+
+---
+spring:
+    profiles: test
+graph:
+  graphPath: input/inputBigger.cvs
