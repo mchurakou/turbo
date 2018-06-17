@@ -1,11 +1,32 @@
 logging:
   level:
     root: INFO
-graph:
-  graphPath: input/us_cities_out_graph.csv
+    org:
+      hibernate:
+#        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: Trace
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          region:
+            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+  h2:
+    console:
+      enabled: true
 
 ---
 spring:
     profiles: test
 graph:
-  graphPath: input/inputBigger.cvs
+  graphPath: input/input.cvs

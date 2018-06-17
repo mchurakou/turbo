@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ConfigProperties {
     private String graphPath;
+    private Boolean readGraphFromDB;
 }

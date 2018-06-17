@@ -1,7 +1,7 @@
 package com.mikalai.turbo.commute.search;
 
 import com.mikalai.turbo.commute.alogrithm.GraphSearch;
-import com.mikalai.turbo.commute.graph.reader.GraphReader;
+import com.mikalai.turbo.commute.graph.reader.GraphFileReader;
 import com.mikalai.turbo.commute.model.ResultRecord;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
@@ -30,6 +31,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 @RunWith(JUnitParamsRunner.class)
 @SpringBootTest
+@ActiveProfiles("test")
 public class DeepFirstSearchTest {
 
     @ClassRule
@@ -42,14 +44,16 @@ public class DeepFirstSearchTest {
     private GraphSearch firstSearch;
 
     @Autowired
-    private GraphReader gr = new GraphReader();
+    private GraphFileReader gr = new GraphFileReader();
 
     private Object[] data() {
         return new Object[][]{
-            {"San Francisco", 1, Arrays.asList(new ResultRecord("San Francisco", 0))},
-            {"San Francisco", 3, Arrays.asList(new ResultRecord("San Francisco", 0), new ResultRecord( "Santa Cruz", 2))},
-            {"San Francisco", 5, Arrays.asList(new ResultRecord("San Francisco", 0 ), new ResultRecord("Santa Cruz",2) , new ResultRecord( "Palo Alto", 5))},
-            {"San Francisco", 6, Arrays.asList(new ResultRecord("San Francisco", 0), new ResultRecord("Santa Cruz",2), new ResultRecord("Palo Alto",5), new ResultRecord( "Santa Monica", 6))},
+                {"San Francisco", 1, Arrays.asList(new ResultRecord("San Francisco",0))},
+                {"San Francisco", 2, Arrays.asList(new ResultRecord("San Francisco",0), new ResultRecord("Santa Cruz",2))},
+                {"San Francisco", 6, Arrays.asList(new ResultRecord("San Francisco",0), new ResultRecord("Santa Cruz",2), new ResultRecord("Palo Alto",5))},
+                {"San Francisco", 7, Arrays.asList(new ResultRecord("San Francisco",0), new ResultRecord("Santa Cruz",2), new ResultRecord("Palo Alto",5), new ResultRecord("Los Angeles", 7))},
+                {"San Francisco", 8, Arrays.asList(new ResultRecord("San Francisco",0), new ResultRecord("Santa Cruz",2), new ResultRecord("Palo Alto",5), new ResultRecord("Los Angeles", 7), new ResultRecord("Irvin",8))},
+                {"San Francisco", 9, Arrays.asList(new ResultRecord("San Francisco",0), new ResultRecord("Santa Cruz",2), new ResultRecord("Palo Alto",5), new ResultRecord("Los Angeles", 7), new ResultRecord("Irvin",8), new ResultRecord("Santa Monica",9))},
 
         };
     }
@@ -59,7 +63,7 @@ public class DeepFirstSearchTest {
 
     @Before
     public void setUp() throws Exception {
-        graph = gr.readGraph("input/input.cvs");
+        graph = gr.read();
     }
 
 

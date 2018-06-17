@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -23,11 +25,14 @@ import java.util.Collections;
 @SpringBootApplication
 @EnableConfigurationProperties
 @EnableSwagger2
+
 public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication app = new SpringApplication(Application.class);
+        app.setAdditionalProfiles("prod");
+        app.run(args);
         logger.info("Started");
 
     }
@@ -51,6 +56,14 @@ public class Application {
                 "Terms of service",
                 new Contact("Mikalai Churakou", "www.example.com", "email@email.ru"),
                 "License of API", "API license URL", Collections.emptyList());
+    }
+
+    @Bean
+    public EhCacheManagerFactoryBean getEhCacheFactory(){
+        EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
+        factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        factoryBean.setShared(true);
+        return factoryBean;
     }
 }
 

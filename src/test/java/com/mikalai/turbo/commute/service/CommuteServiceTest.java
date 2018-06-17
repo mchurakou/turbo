@@ -54,7 +54,7 @@ public class CommuteServiceTest{
 
     @Test
     @Parameters(method = "data")
-    public void check(String departureCity, int timeLmit, List<String> reachableCity ) {
+    public void check(String departureCity, int timeLmit, List<ResultRecord> reachableCity ) {
         List<ResultRecord> visitedCities = commuteService.search(departureCity, timeLmit);
         assertThat(visitedCities, containsInAnyOrder(reachableCity.stream().toArray(ResultRecord[]::new)));
     }
