@@ -17,7 +17,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Rout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

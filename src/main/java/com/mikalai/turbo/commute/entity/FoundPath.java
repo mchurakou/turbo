@@ -17,7 +17,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class FoundPath {
 
     @Id
@@ -30,7 +30,7 @@ public class FoundPath {
     @CollectionTable(name = "reachableCities")
     @MapKeyColumn(name = "city")
     @Column(name = "time")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Map<String, Integer> reachableCities;
 
 

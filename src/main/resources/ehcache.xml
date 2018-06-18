@@ -2,4 +2,5 @@
     <defaultCache name="default" maxElementsInMemory="10000"/>
 
     <cache name="com.mikalai.turbo.commute.entity.FoundPath" maxElementsInMemory="20000" />
+    <cache name="com.mikalai.turbo.commute.entity.FoundPath.reachableCities" maxElementsInMemory="20000" />
 </ehcache>

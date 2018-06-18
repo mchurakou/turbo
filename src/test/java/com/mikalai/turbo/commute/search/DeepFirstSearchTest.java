@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 
 @RunWith(JUnitParamsRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class DeepFirstSearchTest {
 

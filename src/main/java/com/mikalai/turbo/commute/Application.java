@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
@@ -25,7 +27,6 @@ import java.util.Collections;
 @SpringBootApplication
 @EnableConfigurationProperties
 @EnableSwagger2
-
 public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
@@ -56,6 +57,12 @@ public class Application {
                 "Terms of service",
                 new Contact("Mikalai Churakou", "www.example.com", "email@email.ru"),
                 "License of API", "API license URL", Collections.emptyList());
+    }
+
+
+    @Bean
+    public CacheManager getCacheManager(){
+        return new EhCacheCacheManager(getEhCacheFactory().getObject());
     }
 
     @Bean
