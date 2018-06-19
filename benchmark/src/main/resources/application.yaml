@@ -1,0 +1,27 @@
+logging:
+  level:
+    root: INFO
+
+spring:
+  h2:
+    console:
+      enabled: true
+
+
+
+# FOO DS
+foo:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+# BAR DS
+bar:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
