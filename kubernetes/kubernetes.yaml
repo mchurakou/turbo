@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: trubo-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: turbo-app
+      labels:
+        app: turbo-app
+    spec:
+      containers:
+        - image: mchurakou/turbo:1
+          name: turbo-container
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turbo-sv
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: turbo-app
+
