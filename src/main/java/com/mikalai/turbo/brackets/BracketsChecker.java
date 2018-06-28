@@ -35,7 +35,6 @@ public class BracketsChecker {
         }
 
 
-        System.out.println(a)
         return stack.isEmpty();
 
 
