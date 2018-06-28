@@ -11,6 +11,9 @@ logging:
 
 spring:
   jpa:
+    hibernate:
+      ddl-auto: update
+
     show-sql: true
     properties:
       hibernate:
@@ -21,12 +24,37 @@ spring:
           use_second_level_cache: true
           region:
             factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
-  h2:
-    console:
+
+
+
+management:
+  endpoint:
+    env:
       enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: env
+h2:
+  console:
+    enabled: true
 
 ---
 spring:
-    profiles: test
+  profiles: test
 graph:
   graphPath: input/input.cvs
+
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:h2:tcp://${H2_URL}/test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    initialization-mode: never
+
+h2:
+  console:
+    enabled: false

@@ -1,20 +1,22 @@
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: trubo-deployment
+  name: h2-database
 spec:
-  replicas: 3
-  template:
-    metadata:
-      name: turbo-app
-      labels:
-        app: turbo-app
-    spec:
-      containers:
-        - image: mchurakou/turbo:1
-          name: turbo-container
+  type: NodePort
+  ports:
+  - name: web
+    port: 81
+    targetPort: 81
+  - name: db
+    port: 1521
+    targetPort: 1521
+  selector:
+    app: h2-db
+
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -26,4 +28,48 @@ spec:
     targetPort: 8080
   selector:
     app: turbo-app
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: h2-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: h2-db
+      labels:
+        app: h2-db
+    spec:
+      containers:
+        - image: mchurakou/h2_mikalai:1
+          name: h2-container
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: turbo-deployment
+spec:
+  replicas: 3
+
+  template:
+    metadata:
+      name: turbo-app
+      labels:
+        app: turbo-app
+    spec:
+      containers:
+        - image: mchurakou/turbo:2
+          name: turbo-container
+          env:
+            - name: "H2_PORT"
+              value: "$(H2_DATABASE_SERVICE_PORT)"
+            - name: "H2_URL"
+              value: "$(H2_DATABASE_SERVICE_HOST)"
+            - name: "profile"
+              value: "prod"
+
+
 

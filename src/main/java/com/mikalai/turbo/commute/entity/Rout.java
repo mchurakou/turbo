@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by mikalai on 6/17/18.
@@ -17,6 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name="SOURCE_DESTINATION_CONSTRAINT" ,columnNames = {"SOURCE", "DESTINATION"}))
 public class Rout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

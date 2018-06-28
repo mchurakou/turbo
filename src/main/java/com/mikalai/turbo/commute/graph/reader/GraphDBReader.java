@@ -14,7 +14,6 @@ import java.util.Map;
  * Created by mikalai on 6/17/18.
  */
 @Component
-@Profile("prod")
 public class GraphDBReader extends GraphReader {
     private static final Logger logger = LoggerFactory.getLogger(GraphDBReader.class);
 

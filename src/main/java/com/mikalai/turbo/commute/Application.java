@@ -2,6 +2,7 @@ package com.mikalai.turbo.commute;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,7 +10,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -18,6 +21,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 
 /**
@@ -31,12 +35,11 @@ public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Application.class);
-        app.setAdditionalProfiles("prod");
-        app.run(args);
+        SpringApplication.run(Application.class, args);
         logger.info("Started");
 
     }
+
 
     @Bean
     public Docket api() {
@@ -61,16 +64,18 @@ public class Application {
 
 
     @Bean
-    public CacheManager getCacheManager(){
+    public CacheManager getCacheManager() {
         return new EhCacheCacheManager(getEhCacheFactory().getObject());
     }
 
     @Bean
-    public EhCacheManagerFactoryBean getEhCacheFactory(){
+    public EhCacheManagerFactoryBean getEhCacheFactory() {
         EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
         factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
         factoryBean.setShared(true);
         return factoryBean;
     }
+
+
 }
 
